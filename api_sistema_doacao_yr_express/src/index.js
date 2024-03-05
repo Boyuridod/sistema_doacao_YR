@@ -1,18 +1,19 @@
-const logger = require("./Logger/logger");
+const logger = require("./logger/logger");
 const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
+app.get('/teste', (req, res) => {
     res.send('Rota executou com sucesso!');
 });
 
-app.get('/:id', (req, res) => {
+app.get('/teste/:id', (req, res) => {
     try {
         const id = req.params.id;
 
         if (!isNaN(id)) {
         res.send(id); 
+        logger.info('Rota executou corretamente');
         }
 
         else {
@@ -21,25 +22,19 @@ app.get('/:id', (req, res) => {
     }
     catch (error) {
         logger.error(error.message);
-        res.status(400).send('Requisição inválida');
+        res.status(400).send('Requisição inválida (caso 2)');
     }
 });
 
-app.get('/:value/:quant', (req, res) => {
+app.get('/testeQuery', (req, res) => {
     try{
-        const value = req.params.value;
-        const quant = req.params.quant;
-        if (!isNaN(value) && !isNaN(quant)){
-            res.send("Rota executou com sucesso recebendo o valor: " + value + " e quantidade: " + quant + "!");
-        }
-        else{
-            throw new Error('Digite apenas numeros');
-        }
+    res.send('Rota executou com sucesso recebendo o valor: ' + req.query.valor + ' e quantidade: ' + req.query.quantidade + '!');
     }
     catch(error){
-        logger.error(error.message)
-        res.status(400).send('Requisição inválida');
+        logger.error(error.message);
+        res.status(400).send('Requisição inválida (caso 3)')
     }
+
 });
 
 app.listen(port, () => {
