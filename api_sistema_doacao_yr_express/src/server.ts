@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import logger from './logger/logger';
 const app = express();
 const port = 3000;
