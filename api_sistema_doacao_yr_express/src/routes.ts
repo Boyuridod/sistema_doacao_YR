@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from './Log/logger';
+import exampleController from './Controllers/exampleController';
 const router = express.Router();
 
 router.get('/teste', (req, res) => {
@@ -41,5 +42,7 @@ router.get('/testeQuery', (req, res) => {
     }
 
 });
+
+router.get('/example', exampleController.exampleRoute);
 
 export default router;

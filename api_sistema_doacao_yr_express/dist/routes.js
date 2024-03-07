@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const logger_1 = __importDefault(require("./Log/logger"));
+const exampleController_1 = __importDefault(require("./Controllers/exampleController"));
 const router = express_1.default.Router();
 router.get('/teste', (req, res) => {
     res.send('Rota executou com sucesso!');
@@ -40,4 +41,5 @@ router.get('/testeQuery', (req, res) => {
         res.status(400).send('Requisição inválida (caso 3)');
     }
 });
+router.get('/example', exampleController_1.default.exampleRoute);
 exports.default = router;

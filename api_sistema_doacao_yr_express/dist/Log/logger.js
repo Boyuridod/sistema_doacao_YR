@@ -9,7 +9,9 @@ const logger = (0, pino_1.default)({
     transport: {
         target: 'pino-pretty',
         options: {
-            colorize: true
+            colorize: true,
+            levelFirst: true,
+            translateTime: "dd/mm/yyyy|HH:MM:ss"
         }
     }
 });
