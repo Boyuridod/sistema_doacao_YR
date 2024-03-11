@@ -1,19 +1,31 @@
 {
   "name": "api_sistema_doacao_yr",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "updist": "tsc && ts-node src/server.ts",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.3",
+    "@types/node": "^20.11.24",
+    "@types/pino": "^7.0.5",
+    "cors": "^2.8.5",
     "pino": "^8.19.0",
-    "pino-http": "^9.0.0"
+    "pino-http": "^9.0.0",
+    "ts-node": "^10.9.2"
   },
   "description": "",
   "devDependencies": {
-    "pino-pretty": "^10.3.1"
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0",
+    "pino-pretty": "^10.3.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
   }
 }
