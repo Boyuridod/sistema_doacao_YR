@@ -1,16 +1,16 @@
 import express from 'express';
 import logger from './Log/logger';
-import exampleController from './Controllers/exampleController';
+import dataController from './Controllers/DataController/dataController'
+
 const router = express.Router();
 
-router.get('/teste', (req, res) => {
+router.get('/', (req, res) => {
     res.send('Rota executou com sucesso!');
 });
 
 router.get('/teste/:id', (req, res) => {
+    const {id} = req.params;
     try {
-        const {id} = req.params;
-
         if (!isNaN(Number(id))) {
             res.send(`O valor digitado foi: ${id}`);
             logger.info('Rota executou corretamente');
@@ -27,12 +27,12 @@ router.get('/teste/:id', (req, res) => {
 });
 
 router.get('/testeQuery', (req, res) => {
+    const {valor} = req.query;
+    const {quantidade} = req.query;
+
     try {
-
-        
-
-        if (!isNaN(Number(req.query.valor)) && !isNaN(Number(req.query.quantidade))) {
-            res.send(`Rota executou com sucesso recebendo o valor: ${req.query.valor} e quantidade ${req.query.quantidade} !`);
+        if (!isNaN(Number(valor)) && !isNaN(Number(quantidade))) {
+            res.send(`Rota executou com sucesso recebendo o valor: ${valor} e quantidade ${quantidade} !`);
             logger.info('Rota executou corretamente');
         }
         else{
@@ -46,6 +46,6 @@ router.get('/testeQuery', (req, res) => {
 
 });
 
-router.get('/example', exampleController.exampleRoute);
+router.get('/formulario', dataController.exampleRoute);
 
 export default router;

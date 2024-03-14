@@ -8,8 +8,8 @@ const port = 5000;
 
 app.use(cors());
 app.use(bodyParser.json())
-app.use('/', routes);
+app.use('/api', routes);
 
 app.listen(port, () => {
-    logger.info('Servidor rodando em http://localhost:' + port);
+    logger.info(`Servidor rodando em http://localhost:${port}/api`);
 });
