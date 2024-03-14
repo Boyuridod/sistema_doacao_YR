@@ -9,10 +9,10 @@ router.get('/teste', (req, res) => {
 
 router.get('/teste/:id', (req, res) => {
     try {
-        const id = req.params.id;
+        const {id} = req.params;
 
         if (!isNaN(Number(id))) {
-            res.send(id);
+            res.send(`O valor digitado foi: ${id}`);
             logger.info('Rota executou corretamente');
         }
 
