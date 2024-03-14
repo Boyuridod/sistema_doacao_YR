@@ -21,15 +21,18 @@ router.get('/teste/:id', (req, res) => {
         }
     }
     catch {
-        logger.error("Digite apenas números");
+        logger.error('Digite apenas números');
         res.status(400).send('Requisição inválida (caso 2)');
     }
 });
 
 router.get('/testeQuery', (req, res) => {
     try {
+
+        
+
         if (!isNaN(Number(req.query.valor)) && !isNaN(Number(req.query.quantidade))) {
-            res.send('Rota executou com sucesso recebendo o valor: ' + req.query.valor + ' e quantidade: ' + req.query.quantidade + '!');
+            res.send(`Rota executou com sucesso recebendo o valor: ${req.query.valor} e quantidade ${req.query.quantidade} !`);
             logger.info('Rota executou corretamente');
         }
         else{
@@ -37,7 +40,7 @@ router.get('/testeQuery', (req, res) => {
         }
     }
     catch (error) {
-        logger.error("Digite apenas números");
+        logger.error('Digite apenas números');
         res.status(400).send('Requisição inválida (caso 3)');
     }
 
