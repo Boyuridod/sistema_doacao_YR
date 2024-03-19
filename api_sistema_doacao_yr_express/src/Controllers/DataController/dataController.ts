@@ -1,9 +1,25 @@
 import { Request, Response } from 'express';
+import Dados from '../../Models/Dados/Dados';
+import logger from '../../Log/logger';
 
-class exampleController {
+class DataController {
+  private dadosRecebidos: Dados | null = null;
+
   public exampleRoute(req: Request, res: Response): void {
-    res.json({ message: 'Batata!' });
+    const data = req.body;
+
+    this.dadosRecebidos = new Dados(
+      data.texto,
+      data.inteiro,
+      data.booleano,
+      data.opcaoSelect,
+      data.opcaoRadio
+    )
+
+    logger.info(this.dadosRecebidos);
+
+    res.send('Dados recebidos com sucesso!');
   }
 }
 
-export default new exampleController();
+export default new DataController();

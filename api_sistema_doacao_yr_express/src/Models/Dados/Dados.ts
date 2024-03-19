@@ -48,3 +48,5 @@ class Dados {
         this.opcaoRadio = opcaoRadio;
     }
 }
+
+export default Dados;

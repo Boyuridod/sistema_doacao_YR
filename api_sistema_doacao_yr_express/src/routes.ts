@@ -46,6 +46,6 @@ router.get('/testeQuery', (req, res) => {
 
 });
 
-router.get('/formulario', dataController.exampleRoute);
+router.post('/formulario', dataController.exampleRoute);
 
 export default router;
