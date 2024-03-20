@@ -47,6 +47,16 @@ class Dados {
     public setOpcaoRadio(opcaoRadio: string) {
         this.opcaoRadio = opcaoRadio;
     }
+
+    public static fromJson(json: Dados): Dados {
+        return new Dados(
+            json.texto,
+            json.inteiro,
+            json.booleano,
+            json.opcaoSelect,
+            json.opcaoRadio
+        )
+    }
 }
 
 export default Dados;
