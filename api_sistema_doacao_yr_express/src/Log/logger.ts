@@ -1,4 +1,5 @@
 import pino, { Logger } from 'pino';
+import { Request, Response, NextFunction } from 'express';
 
 const logger: Logger = pino({
     level: 'debug',
@@ -12,6 +13,16 @@ const logger: Logger = pino({
     }
 });
 
+function logRequests(req: Request, res: Response, next: NextFunction) {
+    logger.info({
+        method: req.method,
+        url: req.url,
+        query: req.query,
+        body: req.body,
+    }, 'Request received');
+    next();
+}
+
 //https://getpino.io/#/
 /*
   trace: 'DEBUG',
@@ -23,3 +34,4 @@ const logger: Logger = pino({
 */
 
 export default logger;
+export { logRequests };
