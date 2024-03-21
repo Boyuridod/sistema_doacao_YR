@@ -9,7 +9,7 @@ class DataController {
 
     logger.info(newObject);
 
-    res.send('Dados recebidos com sucesso!');
+    res.json(newObject);
   }
 }
 
