@@ -1,6 +1,6 @@
 import express from 'express';
 import logger from './Log/logger';
-import dataController from './Controllers/DataController/dataController'
+import dataController from './Controllers/DataController/DataController'
 
 const router = express.Router();
 
