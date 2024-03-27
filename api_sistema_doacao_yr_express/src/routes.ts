@@ -1,6 +1,8 @@
 import express from 'express';
 import logger from './Log/logger';
-import dataController from './Controllers/DataController/DataController'
+import dataController from './Controllers/DataController/DataController';
+import middleware from './middlewares/middleware'
+
 
 const router = express.Router();
 
@@ -39,13 +41,13 @@ router.get('/testeQuery', (req, res) => {
             throw new Error();
         }
     }
-    catch (error) {
+    catch {
         logger.error('Digite apenas números');
         res.status(400).send('Requisição inválida (caso 3)');
     }
 
 });
 
-router.post('/formulario', dataController.exampleRoute);
-
+//router.post('/formulario', middleware.validateText, middleware.validateInteger, middleware.validateBoolean, middleware.validateDropbox, middleware.validateRadioButton ,dataController.exampleRoute);
+router.post('/formulario', middleware.validateText, dataController.exampleRoute);
 export default router;
