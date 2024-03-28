@@ -14,7 +14,7 @@ const logger: Logger = pino({
 });
 
 function logRequests(req: Request, res: Response, next: NextFunction) {
-    logger.info({
+    logger.debug({
         method: req.method,
         url: req.url,
         query: req.query,
