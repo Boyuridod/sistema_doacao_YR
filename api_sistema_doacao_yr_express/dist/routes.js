@@ -5,16 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const logger_1 = __importDefault(require("./Log/logger"));
-const exampleController_1 = __importDefault(require("./Controllers/exampleController"));
+const DataController_1 = __importDefault(require("./Controllers/DataController/DataController"));
 const router = express_1.default.Router();
-router.get('/teste', (req, res) => {
+router.get('/', (req, res) => {
     res.send('Rota executou com sucesso!');
 });
 router.get('/teste/:id', (req, res) => {
+    const { id } = req.params;
     try {
-        const id = req.params.id;
         if (!isNaN(Number(id))) {
-            res.send(id);
+            res.send(`O valor digitado foi: ${id}`);
             logger_1.default.info('Rota executou corretamente');
         }
         else {
@@ -22,14 +22,16 @@ router.get('/teste/:id', (req, res) => {
         }
     }
     catch (_a) {
-        logger_1.default.error("Digite apenas números");
+        logger_1.default.error('Digite apenas números');
         res.status(400).send('Requisição inválida (caso 2)');
     }
 });
 router.get('/testeQuery', (req, res) => {
+    const { valor } = req.query;
+    const { quantidade } = req.query;
     try {
-        if (!isNaN(Number(req.query.valor)) && !isNaN(Number(req.query.quantidade))) {
-            res.send('Rota executou com sucesso recebendo o valor: ' + req.query.valor + ' e quantidade: ' + req.query.quantidade + '!');
+        if (!isNaN(Number(valor)) && !isNaN(Number(quantidade))) {
+            res.send(`Rota executou com sucesso recebendo o valor: ${valor} e quantidade ${quantidade} !`);
             logger_1.default.info('Rota executou corretamente');
         }
         else {
@@ -37,9 +39,9 @@ router.get('/testeQuery', (req, res) => {
         }
     }
     catch (error) {
-        logger_1.default.error("Digite apenas números");
+        logger_1.default.error('Digite apenas números');
         res.status(400).send('Requisição inválida (caso 3)');
     }
 });
-router.get('/example', exampleController_1.default.exampleRoute);
+router.post('/formulario', DataController_1.default.exampleRoute);
 exports.default = router;

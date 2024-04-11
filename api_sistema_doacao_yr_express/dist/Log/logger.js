@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.logRequests = void 0;
 const pino_1 = __importDefault(require("pino"));
 const logger = (0, pino_1.default)({
     level: 'debug',
@@ -15,6 +16,16 @@ const logger = (0, pino_1.default)({
         }
     }
 });
+function logRequests(req, res, next) {
+    logger.info({
+        method: req.method,
+        url: req.url,
+        query: req.query,
+        body: req.body,
+    }, 'Request received');
+    next();
+}
+exports.logRequests = logRequests;
 //https://getpino.io/#/
 /*
   trace: 'DEBUG',

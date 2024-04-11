@@ -1,48 +1,23 @@
 import express from 'express';
-import logger from './Log/logger';
-import exampleController from './Controllers/exampleController';
+import dataController from './Controllers/DataController/DataController';
+import testController from './Controllers/TestController/TestController';
+import middleware from './middlewares/middleware'
+
+
 const router = express.Router();
 
-router.get('/teste', (req, res) => {
-    res.send('Rota executou com sucesso!');
-});
+router.get('/', testController.firstTest);
 
-router.get('/teste/:id', (req, res) => {
-    try {
-        const id = req.params.id;
+router.get('/teste/:id', testController.secondTest);
 
-        if (!isNaN(Number(id))) {
-            res.send(id);
-            logger.info('Rota executou corretamente');
-        }
+router.get('/testeQuery', testController.queryTest);
 
-        else {
-            throw new Error();
-        }
-    }
-    catch {
-        logger.error("Digite apenas números");
-        res.status(400).send('Requisição inválida (caso 2)');
-    }
-});
-
-router.get('/testeQuery', (req, res) => {
-    try {
-        if (!isNaN(Number(req.query.valor)) && !isNaN(Number(req.query.quantidade))) {
-            res.send('Rota executou com sucesso recebendo o valor: ' + req.query.valor + ' e quantidade: ' + req.query.quantidade + '!');
-            logger.info('Rota executou corretamente');
-        }
-        else{
-            throw new Error();
-        }
-    }
-    catch (error) {
-        logger.error("Digite apenas números");
-        res.status(400).send('Requisição inválida (caso 3)');
-    }
-
-});
-
-router.get('/example', exampleController.exampleRoute);
+router.post('/formulario',
+    middleware.validateText,
+    middleware.validateInteger,
+    middleware.validateBoolean,
+    middleware.validateDropbox,
+    middleware.validateRadioButton,
+    dataController.exampleRoute);
 
 export default router;
