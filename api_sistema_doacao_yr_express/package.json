@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@js-joda/core": "^5.6.2",
     "@types/node": "^20.11.24",
     "@types/pino": "^7.0.5",
     "cors": "^2.8.5",

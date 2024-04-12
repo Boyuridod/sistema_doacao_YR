@@ -1,18 +1,5 @@
-enum TipoSanguineo {
-
-    A = "A",
-    B = "B",
-    AB = "AB",
-    O = "O",
-
-}
-
-enum FatorRH {
-
-    positivo = "+",
-    negativo = "-",
-
-}
+import TipoSanguineo from "../Enums/TipoSanguineo";
+import FatorRH from "../Enums/FatorRH";
 
 class Doador {
 
@@ -110,6 +97,18 @@ class Doador {
 
         this.tipoRhCorretos = tipoRhCorretos
 
+    }
+
+    public static fromJson(json: Doador): Doador {
+        return new Doador(
+            json.codigo,
+            json.nome,
+            json.cpf,
+            json.contato,
+            json.tipoSanguineo,
+            json.fatorRH,
+            json.tipoRhCorretos
+        )
     }
 
 }
