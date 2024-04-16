@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm'
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { LocalDate, LocalTime } from '@js-joda/core';
 
 

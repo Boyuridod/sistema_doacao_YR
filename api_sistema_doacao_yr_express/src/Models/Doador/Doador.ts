@@ -1,16 +1,24 @@
+import { Entity, Column, PrimaryColumn } from 'typeorm'
 import { isTipoSanguineo, TipoSanguineo } from "../Enums/TipoSanguineo";
 import { isFatorRH, FatorRH } from "../Enums/FatorRH";
 
+@Entity()
 class Doador {
 
+    @PrimaryColumn()
     private codigo: number;
+    @Column()
     private nome: string;
+    @Column()
     private cpf: string;
+    @Column()
     private contato: string;
+    @Column()
     private tipoSanguineo: TipoSanguineo;
+    @Column()
     private fatorRH: FatorRH;
+    @Column()
     private tipoRhCorretos: boolean;
-
 
     constructor(
 
