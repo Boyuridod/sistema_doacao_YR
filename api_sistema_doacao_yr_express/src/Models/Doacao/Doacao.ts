@@ -1,13 +1,30 @@
+import { Entity, Column, PrimaryColumn } from 'typeorm'
 import { LocalDate, LocalTime } from '@js-joda/core';
 
+
+@Entity()
 class Doacao {
 
+    @PrimaryColumn()
+    private codigo: number;
+    @Column()
+    private data: LocalDate;
+    @Column()
+    private hora: LocalTime;
+    @Column()
+    private volume: number;
+
     constructor(
-        private codigo: number,
-        private data: LocalDate,
-        private hora: LocalTime,
-        private volume: number
-    ) { }
+        codigo: number,
+        data: LocalDate,
+        hora: LocalTime,
+        volume: number
+    ) {
+        this.codigo = codigo;
+        this.data = data;
+        this.hora = hora;
+        this.volume = volume;
+    }
 
 
     public getCodigo() {
@@ -18,27 +35,27 @@ class Doacao {
         this.codigo = codigo;
     }
 
-    public getDate(){
+    public getDate() {
         return this.data
     }
 
-    public setDate(data: LocalDate){
+    public setDate(data: LocalDate) {
         this.data = data
     }
 
-    public getHora(){
+    public getHora() {
         return this.hora
     }
 
-    public setHora(hora: LocalTime){
+    public setHora(hora: LocalTime) {
         this.hora = hora
     }
 
-    public getVolume(){
+    public getVolume() {
         return this.volume;
     }
 
-    public setVolume(volume: number){
+    public setVolume(volume: number) {
         this.volume = volume;
     }
 

@@ -1,10 +1,19 @@
 enum TipoSanguineo {
-
+    // Tipo A
     A = "A",
-    B = "B",
-    AB = "AB",
-    O = "O",
 
+    // Tipo B
+    B = "B",
+
+    // Tipo AB
+    AB = "AB",
+
+    // Tipo O
+    O = "O",
 }
 
-export default TipoSanguineo;
+function isTipoSanguineo(valor: string): valor is TipoSanguineo {
+    return Object.values(TipoSanguineo).includes(valor as TipoSanguineo);
+}
+
+export { TipoSanguineo, isTipoSanguineo };

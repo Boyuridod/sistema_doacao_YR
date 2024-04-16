@@ -1,19 +1,36 @@
-import TipoSanguineo from "../Enums/TipoSanguineo";
-import FatorRH from "../Enums/FatorRH";
+import { isTipoSanguineo, TipoSanguineo } from "../Enums/TipoSanguineo";
+import { isFatorRH, FatorRH } from "../Enums/FatorRH";
 
 class Doador {
 
+    private codigo: number;
+    private nome: string;
+    private cpf: string;
+    private contato: string;
+    private tipoSanguineo: TipoSanguineo;
+    private fatorRH: FatorRH;
+    private tipoRhCorretos: boolean;
+
+
     constructor(
 
-        private codigo: number,
-        private nome: string,
-        private cpf: string,
-        private contato: string,
-        private tipoSanguineo: TipoSanguineo,
-        private fatorRH: FatorRH,
-        private tipoRhCorretos: boolean
+        codigo: number,
+        nome: string,
+        cpf: string,
+        contato: string,
+        tipoSanguineo: TipoSanguineo,
+        fatorRH: FatorRH,
+        tipoRhCorretos: boolean
 
-    ) { }
+    ) { 
+        this.codigo = codigo;
+        this.nome = nome;
+        this.cpf = cpf; 
+        this.contato = contato;
+        this.tipoSanguineo = tipoSanguineo; 
+        this.fatorRH = fatorRH;
+        this.tipoRhCorretos = tipoRhCorretos; 
+    }
 
     public getCodigo() {
 
@@ -71,32 +88,30 @@ class Doador {
 
     public setTipoSanguineo(tipoSanguineo: TipoSanguineo) {
 
-        this.tipoSanguineo = tipoSanguineo;
-
+        if (isTipoSanguineo(tipoSanguineo)) {
+            this.tipoSanguineo = tipoSanguineo;
+        }
     }
 
     public getFatorRH() {
 
         return this.fatorRH;
-
     }
 
     public setFatorRH(fatorRH: FatorRH) {
-
-        this.fatorRH = fatorRH;
-
+        if (isFatorRH(fatorRH)) {
+            this.fatorRH = fatorRH;
+        }
     }
 
     public getTipoRhCorretos() {
 
         return this.tipoRhCorretos;
-
     }
 
     public setTipoRhCorretos(tipoRhCorretos: boolean) {
 
         this.tipoRhCorretos = tipoRhCorretos
-
     }
 
     public static fromJson(json: Doador): Doador {
