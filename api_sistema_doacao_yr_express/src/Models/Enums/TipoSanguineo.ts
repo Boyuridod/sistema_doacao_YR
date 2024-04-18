@@ -1,15 +1,15 @@
 enum TipoSanguineo {
     // Tipo A
-    A = "A",
+    A = 'A',
 
     // Tipo B
-    B = "B",
+    B = 'B',
 
     // Tipo AB
-    AB = "AB",
+    AB = 'AB',
 
     // Tipo O
-    O = "O",
+    O = 'O',
 }
 
 function isTipoSanguineo(valor: string): valor is TipoSanguineo {

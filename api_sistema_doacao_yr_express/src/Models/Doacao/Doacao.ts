@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate, LocalTime } from '@js-joda/core';
 
 
 @Entity()
 class Doacao {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     private codigo: number;
     @Column()
     private data: LocalDate;

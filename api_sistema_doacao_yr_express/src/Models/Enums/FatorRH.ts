@@ -1,9 +1,9 @@
 enum FatorRH {
     // Representa o fator RH positivo
-    POSITIVO = "+",
+    POSITIVO = '+',
 
     // Representa o fator RH negativo
-    NEGATIVO = "-"
+    NEGATIVO = '-'
 }
 
 // Função para verificar se um valor é um fator RH válido

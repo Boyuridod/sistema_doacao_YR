@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm'
-import { isTipoSanguineo, TipoSanguineo } from "../Enums/TipoSanguineo";
-import { isFatorRH, FatorRH } from "../Enums/FatorRH";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { isTipoSanguineo, TipoSanguineo } from '../Enums/TipoSanguineo';
+import { isFatorRH, FatorRH } from '../Enums/FatorRH';
 
 @Entity()
 class Doador {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     private codigo: number;
     @Column()
     private nome: string;
