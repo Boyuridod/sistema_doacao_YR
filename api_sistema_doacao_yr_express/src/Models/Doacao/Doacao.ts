@@ -5,13 +5,13 @@ import { LocalDate, LocalTime } from '@js-joda/core';
 @Entity()
 class Doacao {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({name: 'codigo'})
     private codigo: number;
-    @Column()
+    @Column({name: 'data'})
     private data: LocalDate;
-    @Column()
+    @Column({name: 'hora'})
     private hora: LocalTime;
-    @Column()
+    @Column({name: 'volume'})
     private volume: number;
 
     constructor(
