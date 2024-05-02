@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "updist": "tsc && ts-node src/server.ts",
     "dev": "nodemon src/server.ts",
-    "build": "tsc"
+    "dev:server": "ts-node-dev src/server.ts",
+    "build": "tsc",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "author": "",
   "license": "ISC",

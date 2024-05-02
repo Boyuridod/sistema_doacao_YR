@@ -2,19 +2,23 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate, LocalTime } from '@js-joda/core';
 
 
-@Entity()
+
+@Entity('doacoes')
 class Doacao {
 
-    @PrimaryGeneratedColumn({name: 'codigo'})
-    private codigo: number;
-    @Column({name: 'data'})
-    private data: LocalDate;
-    @Column({name: 'hora'})
-    private hora: LocalTime;
-    @Column({name: 'volume'})
-    private volume: number;
+    @PrimaryGeneratedColumn('increment')
+    codigo: number;
 
-    constructor(
+    @Column({ type: 'date' })
+    data: LocalDate;
+
+    @Column({ type: 'time' })
+    hora: LocalTime;
+
+    @Column({ type: 'int' })
+    volume: number;
+
+    constructor(    
         codigo: number,
         data: LocalDate,
         hora: LocalTime,

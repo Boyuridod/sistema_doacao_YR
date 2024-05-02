@@ -2,23 +2,29 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 import { isTipoSanguineo, TipoSanguineo } from '../Enums/TipoSanguineo';
 import { isFatorRH, FatorRH } from '../Enums/FatorRH';
 
-@Entity()
+@Entity('doadores')
 class Doador {
 
-    @PrimaryGeneratedColumn()
-    private codigo: number;
-    @Column()
-    private nome: string;
-    @Column()
-    private cpf: string;
-    @Column()
-    private contato: string;
-    @Column()
-    private tipoSanguineo: TipoSanguineo;
-    @Column()
-    private fatorRH: FatorRH;
-    @Column()
-    private tipoRhCorretos: boolean;
+    @PrimaryGeneratedColumn('increment')
+    codigo: number;
+
+    @Column({ type: 'varchar', length: 100 })
+    nome: string;
+
+    @Column({ type: 'varchar', length: 20 })
+    cpf: string;
+
+    @Column({ type: 'varchar', length: 50 })
+    contato: string;
+
+    @Column({ type: 'varchar', length: 5 })
+    tipoSanguineo: TipoSanguineo;
+
+    @Column({ type: 'varchar', length: 3 })
+    fatorRH: FatorRH;
+
+    @Column({ type: 'boolean' })
+    tipoRhCorretos: boolean;
 
     constructor(
 
