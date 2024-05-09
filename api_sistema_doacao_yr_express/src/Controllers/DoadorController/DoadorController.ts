@@ -1,16 +1,17 @@
 import { Request, Response } from "express";
 import { Repository } from "typeorm";
 import Doador from "../..//Models/Doador/Doador";
+import { AppDataSource } from "../../Database/data-source";
 
 class DoadorController {
 
-  private doadorRepository: Repository<Doador>;
+  private doadorRepository: Repository<Doador>
 
-  constructor(doadorRepository: Repository<Doador>) {
-    this.doadorRepository = doadorRepository;
-  }
+  constructor() {
+      this.doadorRepository = AppDataSource.getRepository(Doador);
+    }
 
-  async insert(req: Request, res: Response) {
+  public async insert(req: Request, res: Response) {
     try {
       const newObject = req.body as Doador;
       const savedObject = await this.doadorRepository.save(newObject);
@@ -75,4 +76,4 @@ class DoadorController {
   }
 
 }
-export default DoadorController;
+export default new DoadorController;
