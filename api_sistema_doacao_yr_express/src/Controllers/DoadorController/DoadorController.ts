@@ -13,7 +13,7 @@ class DoadorController {
 
   public async insert(req: Request, res: Response) {
     try {
-      let newObject = Doador.fromJson(req.body);
+      let newObject = req.body as Doador;
       const savedObject = await this.doadorRepository.save(newObject);
       return res.status(200).json(savedObject);
     } catch (error: any) {
