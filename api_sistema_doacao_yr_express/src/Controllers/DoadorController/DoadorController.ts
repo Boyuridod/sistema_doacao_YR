@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Repository } from "typeorm";
 import Doador from "../..//Models/Doador/Doador";
+import logger from "../../Log/logger"
 import { AppDataSource } from "../../Database/data-source";
 
 class DoadorController {
@@ -13,7 +14,8 @@ class DoadorController {
 
   public async insert(req: Request, res: Response) {
     try {
-      let newObject = req.body as Doador;
+      let newObject = Doador.fromJson(req.body);
+      logger.debug(newObject);
       const savedObject = await this.doadorRepository.save(newObject);
       return res.status(200).json(savedObject);
     } catch (error: any) {
