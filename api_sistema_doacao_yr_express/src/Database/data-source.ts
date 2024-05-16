@@ -15,6 +15,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: true,
     entities: [Doacao, Doador],
-    migrations: [CreateDoacaoTable1714659446727, CreateDoadorTable1714659503624],
+    migrations: [],
     subscribers: [],
 })

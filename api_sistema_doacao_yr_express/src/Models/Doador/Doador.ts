@@ -21,9 +21,9 @@ class Doador {
     tipoSanguineo: TipoSanguineo;
 
     @Column({ type: 'varchar', length: 3 })
-    fatorRH: FatorRH;
+    fatorRh: FatorRH;
 
-    @Column({ type: 'boolean' })
+    @Column({ type: 'boolean', default: false })
     tipoRhCorretos: boolean;
 
     constructor(
@@ -42,7 +42,7 @@ class Doador {
         this.cpf = cpf; 
         this.contato = contato;
         this.tipoSanguineo = tipoSanguineo; 
-        this.fatorRH = fatorRH;
+        this.fatorRh = fatorRH;
         this.tipoRhCorretos = tipoRhCorretos; 
     }
 
@@ -107,14 +107,14 @@ class Doador {
         }
     }
 
-    public getFatorRH() {
+    public getFatorRh() {
 
-        return this.fatorRH;
+        return this.fatorRh;
     }
 
-    public setFatorRH(fatorRH: FatorRH) {
-        if (isFatorRH(fatorRH)) {
-            this.fatorRH = fatorRH;
+    public setFatorRH(fatorRh: FatorRH) {
+        if (isFatorRH(fatorRh)) {
+            this.fatorRh = fatorRh;
         }
     }
 
@@ -135,7 +135,7 @@ class Doador {
             json.cpf,
             json.contato,
             json.tipoSanguineo,
-            json.fatorRH,
+            json.fatorRh,
             json.tipoRhCorretos
         )
     }

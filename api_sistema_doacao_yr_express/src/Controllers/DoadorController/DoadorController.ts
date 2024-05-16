@@ -1,19 +1,27 @@
 import { Request, Response } from "express";
 import { Repository } from "typeorm";
 import Doador from "../..//Models/Doador/Doador";
-import logger from "../../Log/logger"
+import logger from "../../Log/logger";
 import { AppDataSource } from "../../Database/data-source";
 
 class DoadorController {
 
-  private doadorRepository: Repository<Doador>
+  private doadorRepository: Repository<Doador>;
 
   constructor() {
-      this.doadorRepository = AppDataSource.getRepository(Doador);
-    }
+    this.doadorRepository = AppDataSource.getRepository(Doador);
+
+    // Bind the context of 'this' to the methods
+    this.insert = this.insert.bind(this);
+    this.getAll = this.getAll.bind(this);
+    this.getOneById = this.getOneById.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
+  }
 
   public async insert(req: Request, res: Response) {
     try {
+      logger.debug(req.body);
       let newObject = Doador.fromJson(req.body);
       logger.debug(newObject);
       const savedObject = await this.doadorRepository.save(newObject);
@@ -25,7 +33,31 @@ class DoadorController {
 
   async getAll(req: Request, res: Response) {
     try {
-      const objectArray = await this.doadorRepository.find();
+      const query = this.doadorRepository.createQueryBuilder('doador');
+
+      if (req.query.codigo) {
+        query.andWhere('doador.codigo = :codigo', { codigo: req.query.codigo });
+      }
+      if (req.query.nome) {
+        query.andWhere('doador.nome LIKE :nome', { nome: `%${req.query.nome}%` });
+      }
+      if (req.query.cpf) {
+        query.andWhere('doador.cpf = :cpf', { cpf: req.query.cpf });
+      }
+      if (req.query.contato) {
+        query.andWhere('doador.contato = :contato', { contato: req.query.contato });
+      }
+      if (req.query.tipoSanguineo) {
+        query.andWhere('doador.tipoSanguineo = :tipoSanguineo', { tipoSanguineo: req.query.tipoSanguineo });
+      }
+      if (req.query.fatorRh) {
+        query.andWhere('doador.fatorRh = :fatorRh', { fatorRh: req.query.fatorRh });
+      }
+      if (req.query.tipoRhCorretos) {
+        query.andWhere('doador.tipoRhCorretos = :tipoRhCorretos', { tipoRhCorretos: req.query.tipoRhCorretos });
+      }
+
+      const objectArray = await query.getMany();
       return res.json(objectArray);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
@@ -78,4 +110,5 @@ class DoadorController {
   }
 
 }
-export default new DoadorController;
+
+export default new DoadorController();

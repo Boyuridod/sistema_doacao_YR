@@ -3,6 +3,7 @@ import dataController from './Controllers/DataController/DataController';
 import doadorController from './Controllers/DoadorController/DoadorController';
 import testController from './Controllers/TestController/TestController';
 import middleware from './Middlewares/middleware'
+import DoadorController from './Controllers/DoadorController/DoadorController';
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ router.get('/teste/:id', testController.secondTest);
 router.get('/testeQuery', testController.queryTest);
 
 router.post('/insertDoador', doadorController.insert);
+
+router.get('/getOneDoador', DoadorController.getAll)
 
 router.post('/formulario',
     middleware.validateText,
