@@ -13,7 +13,7 @@ class DoadorController {
 
     // Bind the context of 'this' to the methods
     this.insert = this.insert.bind(this);
-    this.getAll = this.getAll.bind(this);
+    this.getOne = this.getOne.bind(this);
     this.getOneById = this.getOneById.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
@@ -31,24 +31,27 @@ class DoadorController {
     }
   }
 
-  async getAll(req: Request, res: Response) {
+  async getOne(req: Request, res: Response) {
     try {
       const query = this.doadorRepository.createQueryBuilder('doador');
-
+      const params: { [key: string]: any } = {};
+  
       Object.keys(req.body).forEach(key => {
-        let value = req.body[key]
-        if(value != '' || value != null || value != undefined){
-          query.andWhere(`doador.${key} = ${key}`, {key: value})
+        const value = req.body[key];
+        if (value !== '' && value !== null && value !== undefined) {
+          query.andWhere(`doador.${key} = :${key}`);
+          params[key] = value;
         }
-      })
-
-      const objectArray = await query.getMany();
+      });
+  
+      const objectArray = await query.setParameters(params).getMany();
       return res.json(objectArray);
-
+  
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }
+  
 
   async getOneById(req: Request, res: Response) {
     try {
