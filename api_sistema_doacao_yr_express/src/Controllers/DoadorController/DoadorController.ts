@@ -35,30 +35,16 @@ class DoadorController {
     try {
       const query = this.doadorRepository.createQueryBuilder('doador');
 
-      if (req.query.codigo) {
-        query.andWhere('doador.codigo = :codigo', { codigo: req.query.codigo });
-      }
-      if (req.query.nome) {
-        query.andWhere('doador.nome LIKE :nome', { nome: `%${req.query.nome}%` });
-      }
-      if (req.query.cpf) {
-        query.andWhere('doador.cpf = :cpf', { cpf: req.query.cpf });
-      }
-      if (req.query.contato) {
-        query.andWhere('doador.contato = :contato', { contato: req.query.contato });
-      }
-      if (req.query.tipoSanguineo) {
-        query.andWhere('doador.tipoSanguineo = :tipoSanguineo', { tipoSanguineo: req.query.tipoSanguineo });
-      }
-      if (req.query.fatorRh) {
-        query.andWhere('doador.fatorRh = :fatorRh', { fatorRh: req.query.fatorRh });
-      }
-      if (req.query.tipoRhCorretos) {
-        query.andWhere('doador.tipoRhCorretos = :tipoRhCorretos', { tipoRhCorretos: req.query.tipoRhCorretos });
-      }
+      Object.keys(req.body).forEach(key => {
+        let value = req.body[key]
+        if(value == '' || value == null || value == undefined){
+          query.andWhere(`doador.${key} = ${key}`, {key: value})
+        }
+      })
 
       const objectArray = await query.getMany();
       return res.json(objectArray);
+      
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
