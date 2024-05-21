@@ -37,14 +37,14 @@ class DoadorController {
 
       Object.keys(req.body).forEach(key => {
         let value = req.body[key]
-        if(value == '' || value == null || value == undefined){
+        if(value != '' || value != null || value != undefined){
           query.andWhere(`doador.${key} = ${key}`, {key: value})
         }
       })
 
       const objectArray = await query.getMany();
       return res.json(objectArray);
-      
+
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
