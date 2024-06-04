@@ -19,7 +19,7 @@ router.post('/getOneDoador', DoadorController.getOne);
 
 router.post('/updateDoador', DoadorController.update);
 
-router.post('/deleteDoador', DoadorController.delete);
+router.post('/deleteDoador', DoadorController.updateSituacao);
 
 router.post('/formulario',
     middleware.validateText,

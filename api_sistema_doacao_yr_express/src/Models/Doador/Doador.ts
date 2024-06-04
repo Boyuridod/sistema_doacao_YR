@@ -26,6 +26,10 @@ class Doador {
     @Column({ type: 'boolean', default: false })
     tipoRhCorretos: boolean;
 
+    @Column({ type: 'varchar', length: 10, default: 'ATIVO'})
+    situacao: string; 
+
+
     constructor(
 
         codigo: number,
@@ -34,7 +38,8 @@ class Doador {
         contato: string,
         tipoSanguineo: TipoSanguineo,
         fatorRH: FatorRH,
-        tipoRhCorretos: boolean
+        tipoRhCorretos: boolean,
+        situacao: string
 
     ) { 
         this.codigo = codigo;
@@ -43,7 +48,8 @@ class Doador {
         this.contato = contato;
         this.tipoSanguineo = tipoSanguineo; 
         this.fatorRh = fatorRH;
-        this.tipoRhCorretos = tipoRhCorretos; 
+        this.tipoRhCorretos = tipoRhCorretos;
+        this.situacao = situacao;
     }
 
     public getCodigo() {
@@ -136,7 +142,8 @@ class Doador {
             json.contato,
             json.tipoSanguineo,
             json.fatorRh,
-            json.tipoRhCorretos
+            json.tipoRhCorretos,
+            json.situacao
         )
     }
 

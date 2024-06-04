@@ -38,10 +38,10 @@ class DoadorController {
   
       Object.keys(req.body).forEach(key => {
         const value = req.body[key];
-        if (value !== '' && value !== null && value !== undefined) {
+        if (value !== '' && value !== null && value !== undefined && value !== 'INATIVO') {
           query.andWhere(`doador.${key} = :${key}`);
           params[key] = value;
-        }
+          }
       });
   
       const objectArray = await query.setParameters(params).getMany();
@@ -74,6 +74,23 @@ class DoadorController {
       const existingObject = await this.doadorRepository.findOne({ where: { codigo } });
       if (existingObject) {
         await this.doadorRepository.save({ ...existingObject, ...updatedObject });
+        return res.status(200).json({ message: "Object updated successfully" });
+      } else {
+        return res.status(404).json({ error: "Object not found" });
+      }
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async updateSituacao(req: Request, res: Response) {
+    try {
+      const codigo: number = parseInt(req.params.codigo);
+      const updatedObject = req.body as Doador;
+      updatedObject.situacao = 'INATIVO'
+      const existingObject = await this.doadorRepository.findOne({ where: { codigo } });
+      if (existingObject) {
+        await this.doadorRepository.save({ ...existingObject, ...updatedObject});
         return res.status(200).json({ message: "Object updated successfully" });
       } else {
         return res.status(404).json({ error: "Object not found" });
