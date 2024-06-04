@@ -15,7 +15,11 @@ router.get('/testeQuery', testController.queryTest);
 
 router.post('/insertDoador', doadorController.insert);
 
-router.post('/getOneDoador', DoadorController.getOne)
+router.post('/getOneDoador', DoadorController.getOne);
+
+router.post('/updateDoador', DoadorController.update);
+
+router.post('/deleteDoador', DoadorController.delete);
 
 router.post('/formulario',
     middleware.validateText,
