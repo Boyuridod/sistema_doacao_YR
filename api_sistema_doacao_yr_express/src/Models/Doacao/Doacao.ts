@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate, LocalTime } from '@js-joda/core';
+import Doador from '../Doador/Doador';
 
 
 
@@ -18,16 +19,26 @@ class Doacao {
     @Column({ type: 'int' })
     volume: number;
 
+    @Column({ type: 'int'})
+    doador: Doador;
+
+    @Column({ type: 'varchar', length: 10, default: 'ATIVO'})
+    situacao: string; 
+
     constructor(    
         codigo: number,
         data: LocalDate,
         hora: LocalTime,
-        volume: number
+        volume: number,
+        doador: Doador,
+        situacao: string
     ) {
         this.codigo = codigo;
         this.data = data;
         this.hora = hora;
         this.volume = volume;
+        this.doador = doador;
+        this.situacao = situacao;
     }
 
 
@@ -68,7 +79,9 @@ class Doacao {
             json.codigo,
             json.data,
             json.hora,
-            json.volume
+            json.volume,
+            json.doador,
+            json.situacao
         )
     }
 }
