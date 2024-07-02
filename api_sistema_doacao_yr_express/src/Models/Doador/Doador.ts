@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { isTipoSanguineo, TipoSanguineo } from '../Enums/TipoSanguineo';
 import { isFatorRH, FatorRH } from '../Enums/FatorRH';
+import Doacao from '../Doacao/Doacao';
 
 @Entity('doadores')
 class Doador {
@@ -26,12 +27,13 @@ class Doador {
     @Column({ type: 'boolean', default: false })
     tipoRhCorretos: boolean;
 
-    @Column({ type: 'varchar', length: 10, default: 'ATIVO'})
+    @Column({ type: 'varchar', length: 10, default: 'ATIVO' })
     situacao: string; 
 
+    @OneToMany(() => Doacao, (doacao: Doacao) => doacao.doador)
+    doacoes: Doacao[];
 
     constructor(
-
         codigo: number,
         nome: string,
         cpf: string,
@@ -39,8 +41,8 @@ class Doador {
         tipoSanguineo: TipoSanguineo,
         fatorRH: FatorRH,
         tipoRhCorretos: boolean,
-        situacao: string
-
+        situacao: string,
+        doacoes: Doacao[]
     ) { 
         this.codigo = codigo;
         this.nome = nome;
@@ -50,71 +52,52 @@ class Doador {
         this.fatorRh = fatorRH;
         this.tipoRhCorretos = tipoRhCorretos;
         this.situacao = situacao;
+        this.doacoes = doacoes;
     }
 
     public getCodigo() {
-
         return this.codigo;
-
     }
 
     public setCodigo(codigo: number) {
-
         this.codigo = codigo;
-
     }
 
     public getNome() {
-
         return this.nome;
-
     }
 
     public setNome(nome: string) {
-
         this.nome = nome;
-
     }
 
     public getCpf() {
-
         return this.cpf;
-
     }
 
     public setCpf(cpf: string) {
-
-        this.cpf = cpf
-
+        this.cpf = cpf;
     }
 
     public getContato() {
-
         return this.contato;
-
     }
 
     public setContato(contato: string) {
-
         this.contato = contato;
-
     }
 
     public getTipoSanguine() {
-
         return this.tipoSanguineo;
-
     }
 
     public setTipoSanguineo(tipoSanguineo: TipoSanguineo) {
-
         if (isTipoSanguineo(tipoSanguineo)) {
             this.tipoSanguineo = tipoSanguineo;
         }
     }
 
     public getFatorRh() {
-
         return this.fatorRh;
     }
 
@@ -125,13 +108,11 @@ class Doador {
     }
 
     public getTipoRhCorretos() {
-
         return this.tipoRhCorretos;
     }
 
     public setTipoRhCorretos(tipoRhCorretos: boolean) {
-
-        this.tipoRhCorretos = tipoRhCorretos
+        this.tipoRhCorretos = tipoRhCorretos;
     }
 
     public static fromJson(json: Doador): Doador {
@@ -143,8 +124,9 @@ class Doador {
             json.tipoSanguineo,
             json.fatorRh,
             json.tipoRhCorretos,
-            json.situacao
-        )
+            json.situacao,
+            json.doacoes
+        );
     }
 
 }

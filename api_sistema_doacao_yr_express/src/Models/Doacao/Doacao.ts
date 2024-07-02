@@ -1,12 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { LocalDate, LocalTime } from '@js-joda/core';
 import Doador from '../Doador/Doador';
 
-
-
 @Entity('doacoes')
 class Doacao {
-
     @PrimaryGeneratedColumn('increment')
     codigo: number;
 
@@ -19,59 +16,19 @@ class Doacao {
     @Column({ type: 'int' })
     volume: number;
 
-    @Column({ type: 'int'})
+    @ManyToOne(() => Doador, doador => doador.doacoes)
     doador: Doador;
 
     @Column({ type: 'varchar', length: 10, default: 'ATIVO'})
-    situacao: string; 
+    situacao: string;
 
-    constructor(    
-        codigo: number,
-        data: LocalDate,
-        hora: LocalTime,
-        volume: number,
-        doador: Doador,
-        situacao: string
-    ) {
+    constructor(codigo: number, data: LocalDate, hora: LocalTime, volume: number, doador: Doador, situacao: string) {
         this.codigo = codigo;
         this.data = data;
         this.hora = hora;
         this.volume = volume;
         this.doador = doador;
         this.situacao = situacao;
-    }
-
-
-    public getCodigo() {
-        return this.codigo;
-    }
-
-    public setCodigo(codigo: number) {
-        this.codigo = codigo;
-    }
-
-    public getDate() {
-        return this.data
-    }
-
-    public setDate(data: LocalDate) {
-        this.data = data
-    }
-
-    public getHora() {
-        return this.hora
-    }
-
-    public setHora(hora: LocalTime) {
-        this.hora = hora
-    }
-
-    public getVolume() {
-        return this.volume;
-    }
-
-    public setVolume(volume: number) {
-        this.volume = volume;
     }
 
     public static fromJson(json: Doacao): Doacao {
@@ -82,7 +39,7 @@ class Doacao {
             json.volume,
             json.doador,
             json.situacao
-        )
+        );
     }
 }
 

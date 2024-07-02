@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 import { Repository } from "typeorm";
-import doacao from "../../Models/Doacao/Doacao";
+import Doacao from "../../Models/Doacao/Doacao";
+import Doador from "../../Models/Doador/Doador";
 import logger from "../../Log/logger";
 import { AppDataSource } from "../../Database/data-source";
 
-class doacaoController {
+class DoacaoController {
 
-  private doacaoRepository: Repository<doacao>;
+  private doacaoRepository: Repository<Doacao>;
+  private doadorRepository: Repository<Doador>;
 
   constructor() {
-    this.doacaoRepository = AppDataSource.getRepository(doacao);
+    this.doacaoRepository = AppDataSource.getRepository(Doacao);
+    this.doadorRepository = AppDataSource.getRepository(Doador);
 
     // Bind the context of 'this' to the methods
     this.insert = this.insert.bind(this);
@@ -17,16 +20,27 @@ class doacaoController {
     this.getOneById = this.getOneById.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
-    this.updateSituacao = this.updateSituacao.bind(this); // Adicionado bind para updateSituacao
+    this.updateSituacao = this.updateSituacao.bind(this);
   }
 
   public async insert(req: Request, res: Response) {
     try {
-      logger.debug(req.body);
-      let newObject = doacao.fromJson(req.body);
-      logger.debug(newObject);
-      const savedObject = await this.doacaoRepository.save(newObject);
-      return res.status(200).json(savedObject);
+      const { doador, volume, data, hora } = req.body;
+      const doadorCodigo = parseInt(doador, 10); // Convertendo doador para número
+      const doadorEntity = await this.doadorRepository.findOne({ where: { codigo: doadorCodigo } });
+      if (!doadorEntity) {
+        return res.status(404).json({ error: "Doador não encontrado" });
+      }
+
+      const newDoacao = this.doacaoRepository.create({
+        doador: doadorEntity,
+        volume,
+        data,
+        hora
+      });
+
+      const savedDoacao = await this.doacaoRepository.save(newDoacao);
+      return res.status(200).json(savedDoacao);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
@@ -45,7 +59,6 @@ class doacaoController {
         }
       });
 
-      // Adiciona filtro para excluir doacaoes com situação "INATIVO"
       query.andWhere(`doacao.situacao != :situacao`, { situacao: 'INATIVO' });
 
       const objectArray = await query.setParameters(params).getMany();
@@ -60,7 +73,6 @@ class doacaoController {
     try {
       const { startDate, endDate } = req.query;
 
-      // Validar as datas
       if (!startDate || !endDate) {
         return res.status(400).json({ error: "Start date and end date are required" });
       }
@@ -72,7 +84,6 @@ class doacaoController {
         return res.status(400).json({ error: "Invalid date format" });
       }
 
-      // Construir a query
       const query = this.doacaoRepository.createQueryBuilder('doacao')
         .where('doacao.data >= :startDate', { startDate: start.toISOString() })
         .andWhere('doacao.data <= :endDate', { endDate: end.toISOString() })
@@ -85,7 +96,6 @@ class doacaoController {
       return res.status(400).json({ error: error.message });
     }
   }
-
 
   async getOneById(req: Request, res: Response) {
     try {
@@ -101,10 +111,24 @@ class doacaoController {
     }
   }
 
+  public async getDoadorById(req: Request, res: Response) {
+    try {
+      const codigo = parseInt(req.params.codigo); // Convertendo código para número
+      const doador = await this.doadorRepository.findOne({ where: { codigo }, relations: ["doacoes"] });
+      if (doador) {
+        return res.json(doador);
+      } else {
+        return res.status(404).json({ error: "Doador não encontrado" });
+      }
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
   async update(req: Request, res: Response) {
     try {
-        const codigo: number = parseInt(req.body.codigo); // Ajuste para req.body.codigo
-        const updatedObject = req.body as doacao;
+        const codigo: number = parseInt(req.body.codigo);
+        const updatedObject = req.body as Doacao;
         const existingObject = await this.doacaoRepository.findOne({ where: { codigo } });
         if (existingObject) {
             await this.doacaoRepository.save({ ...existingObject, ...updatedObject });
@@ -115,15 +139,14 @@ class doacaoController {
     } catch (error: any) {
         return res.status(400).json({ error: error.message });
     }
-}
-
+  }
 
   async updateSituacao(req: Request, res: Response) {
     try {
       const codigo: number = parseInt(req.body.codigo);
       const existingObject = await this.doacaoRepository.findOne({ where: { codigo } });
       if (existingObject) {
-        existingObject.situacao = 'INATIVO'; // Atualiza apenas a situação
+        existingObject.situacao = 'INATIVO';
         await this.doacaoRepository.save(existingObject);
         return res.status(200).json({ message: "Object updated successfully" });
       } else {
@@ -151,4 +174,4 @@ class doacaoController {
 
 }
 
-export default new doacaoController();
+export default new DoacaoController();
