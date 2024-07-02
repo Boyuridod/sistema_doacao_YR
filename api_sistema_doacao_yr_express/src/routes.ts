@@ -21,6 +21,8 @@ router.post('/updateDoador', DoadorController.update);
 
 router.post('/deleteDoador', DoadorController.updateSituacao);
 
+router.post('/insertDoacao', DoacaoController.insert);
+
 router.post('/getFromDate', DoacaoController.getFromDate);
 
 router.post('/formulario',
