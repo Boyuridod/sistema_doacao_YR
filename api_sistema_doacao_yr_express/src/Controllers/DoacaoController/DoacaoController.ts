@@ -56,6 +56,37 @@ class doacaoController {
     }
   }
 
+  async getFromDate(req: Request, res: Response) {
+    try {
+      const { startDate, endDate } = req.query;
+
+      // Validar as datas
+      if (!startDate || !endDate) {
+        return res.status(400).json({ error: "Start date and end date are required" });
+      }
+
+      const start = new Date(startDate as string);
+      const end = new Date(endDate as string);
+
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        return res.status(400).json({ error: "Invalid date format" });
+      }
+
+      // Construir a query
+      const query = this.doacaoRepository.createQueryBuilder('doacao')
+        .where('doacao.data >= :startDate', { startDate: start.toISOString() })
+        .andWhere('doacao.data <= :endDate', { endDate: end.toISOString() })
+        .andWhere('doacao.situacao != :situacao', { situacao: 'INATIVO' });
+
+      const doacoes = await query.getMany();
+
+      return res.json(doacoes);
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+
   async getOneById(req: Request, res: Response) {
     try {
       const codigo: number = parseInt(req.params.codigo);
