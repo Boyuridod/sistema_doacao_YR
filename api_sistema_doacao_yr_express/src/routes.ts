@@ -17,13 +17,15 @@ router.post('/insertDoador', DoadorController.insert);
 
 router.post('/getOneDoador', DoadorController.getOne);
 
+router.post('/getOneById', DoadorController.getOneById);
+
 router.post('/updateDoador', DoadorController.update);
 
 router.post('/deleteDoador', DoadorController.updateSituacao);
 
 router.post('/insertDoacao', DoacaoController.insert);
 
-router.post('/getFromDate', DoacaoController.getFromDate);
+router.get('/getFromDate', DoacaoController.getFromDate);
 
 router.post('/formulario',
     middleware.validateText,

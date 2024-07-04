@@ -58,8 +58,9 @@ class DoadorController {
 
   async getOneById(req: Request, res: Response) {
     try {
-      const codigo: number = parseInt(req.params.codigo);
+      const codigo: number = parseInt(req.body.codigo);
       const object = await this.doadorRepository.findOne({ where: { codigo } });
+  
       if (object) {
         return res.json(object);
       } else {

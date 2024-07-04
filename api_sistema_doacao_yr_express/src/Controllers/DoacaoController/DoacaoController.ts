@@ -71,31 +71,31 @@ class DoacaoController {
 
   async getFromDate(req: Request, res: Response) {
     try {
-      const { startDate, endDate } = req.query;
+        const { startDate, endDate } = req.body;
 
-      if (!startDate || !endDate) {
-        return res.status(400).json({ error: "Start date and end date are required" });
-      }
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: "Start date and end date are required" });
+        }
 
-      const start = new Date(startDate as string);
-      const end = new Date(endDate as string);
+        const start = new Date(startDate as string);
+        const end = new Date(endDate as string);
 
-      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-        return res.status(400).json({ error: "Invalid date format" });
-      }
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            return res.status(400).json({ error: "Invalid date format" });
+        }
 
-      const query = this.doacaoRepository.createQueryBuilder('doacao')
-        .where('doacao.data >= :startDate', { startDate: start.toISOString() })
-        .andWhere('doacao.data <= :endDate', { endDate: end.toISOString() })
-        .andWhere('doacao.situacao != :situacao', { situacao: 'INATIVO' });
+        const query = this.doacaoRepository.createQueryBuilder('doacao')
+            .where('doacao.data >= :startDate', { startDate: start.toISOString() })
+            .andWhere('doacao.data <= :endDate', { endDate: end.toISOString() })
+            .andWhere('doacao.situacao != :situacao', { situacao: 'INATIVO' });
 
-      const doacoes = await query.getMany();
+        const doacoes = await query.getMany();
 
-      return res.json(doacoes);
+        return res.json(doacoes);
     } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
-  }
+}
 
   async getOneById(req: Request, res: Response) {
     try {
@@ -110,8 +110,8 @@ class DoacaoController {
       return res.status(400).json({ error: error.message });
     }
   }
-
-  public async getDoadorById(req: Request, res: Response) {
+  
+  async getDoadorById(req: Request, res: Response) {
     try {
       const codigo = parseInt(req.params.codigo); // Convertendo código para número
       const doador = await this.doadorRepository.findOne({ where: { codigo }, relations: ["doacoes"] });
